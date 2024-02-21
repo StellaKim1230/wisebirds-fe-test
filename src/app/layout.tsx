@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 async function getMe() {
-  const response = await fetch('http://localhost:4000/api/auth/me');
+  const response = await fetch(`${process.env.API_URL}/api/auth/me`);
   const me = await response.json();
   return me;
 }
