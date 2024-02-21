@@ -8,7 +8,7 @@ interface Props {
 
 const CampaignListTable = ({ campaigns }: Props) => {
   return (
-    <TableContainer>
+    <TableContainer maxHeight="calc(100vh - 200px)" overflowY="auto">
       <Table variant="simple">
         <Thead>
           <Tr>
