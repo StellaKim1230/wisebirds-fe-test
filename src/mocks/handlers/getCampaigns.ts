@@ -20,7 +20,7 @@ export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
       clicks: parseInt(faker.number.int().toString().slice(0, 4), 10),
       ctr: parseFloat(faker.number.float().toFixed(4)),
       video_views: parseInt(faker.number.int().toString().slice(0, 3), 10),
-      vtr: parseFloat(faker.number.float().toFixed(3)),
+      vtr: parseFloat(faker.number.float().toFixed(4)),
     };
 
     campaigns.push(campaign);
