@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ChakraProvider>
           <MSWComponent>
             <Header me={me} />
-            <main>{children}</main>
+            <main style={{ height: 'calc(100vh - 48px)', paddingTop: 48 }}>{children}</main>
           </MSWComponent>
         </ChakraProvider>
       </body>
