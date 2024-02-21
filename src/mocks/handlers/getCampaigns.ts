@@ -2,6 +2,10 @@ import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 import { Campaign, CampaignObjective, ResponseCampaigns } from '../../types/campaign';
 
+/**
+ * @description 페이지네이션을 하기 위해 65개의 더미 데이터를 생성합니다.
+ */
+
 export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
   const campaigns: Campaign[] = [];
   const url = new URL(request.url);
@@ -23,7 +27,7 @@ export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
   }
 
   const responseCampaings: ResponseCampaigns = {
-    content: campaigns,
+    content: campaigns.slice(0, 25),
     total_elements: 65,
     total_pages: 3,
     last: false,
