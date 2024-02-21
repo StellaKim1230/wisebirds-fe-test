@@ -14,10 +14,10 @@ import {
   PopoverBody,
   Text,
 } from '@chakra-ui/react';
-import { Member } from '../types/member';
 import { useSnapshot } from 'valtio';
 import { menuStore } from '../stores/menuStore';
-import { MenuPermission } from '@/types/menu';
+import { Member } from '../types/member';
+import { MenuPermission } from '..//types/menu';
 
 interface Props {
   me: Member;
@@ -37,7 +37,7 @@ const Header = ({ me }: Props) => {
       <Flex as="ul" style={{ listStyle: 'none' }}>
         <Center as="li" padding="0 16px 0 0" height="48px">
           <ChakraLink color="white" as={NextLink} href="/">
-            Wisebirds
+            <Text as="h1">Wisebirds</Text>
           </ChakraLink>
         </Center>
         <Center as="li" padding="0 16px" height="48px">
