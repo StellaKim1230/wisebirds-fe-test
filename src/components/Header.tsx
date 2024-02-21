@@ -15,12 +15,23 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Member } from '../types/member';
+import { useSnapshot } from 'valtio';
+import { menuStore } from '../stores/menuStore';
+import { MenuPermission } from '@/types/menu';
 
 interface Props {
   me: Member;
 }
 
 const Header = ({ me }: Props) => {
+  const { permission, updatePermission } = useSnapshot(menuStore);
+
+  const handleChangeMenuPermission = (value: string) => {
+    if (value === MenuPermission.ADMIN) updatePermission(MenuPermission.ADMIN);
+    if (value === MenuPermission.MANAGER) updatePermission(MenuPermission.MANAGER);
+    if (value === MenuPermission.VIEWER) updatePermission(MenuPermission.VIEWER);
+  };
+
   return (
     <Flex as="nav" bg="blue.400" width="100%" padding="0 16px" justifyContent="space-between" alignItems="center">
       <Flex as="ul" style={{ listStyle: 'none' }}>
@@ -34,11 +45,13 @@ const Header = ({ me }: Props) => {
             캠페인
           </ChakraLink>
         </Center>
-        <Center as="li" padding="0 16px" height="48px">
-          <ChakraLink color="white" as={NextLink} href="/users">
-            사용자
-          </ChakraLink>
-        </Center>
+        {permission === MenuPermission.ADMIN && (
+          <Center as="li" padding="0 16px" height="48px">
+            <ChakraLink color="white" as={NextLink} href="/users">
+              사용자
+            </ChakraLink>
+          </Center>
+        )}
       </Flex>
       <Flex>
         <Popover placement="bottom-end">
@@ -66,10 +79,15 @@ const Header = ({ me }: Props) => {
         </Popover>
 
         <Center>
-          <Select color="white" width="120px">
-            <option value="admin">어드민</option>
-            <option value="manager">매니저</option>
-            <option value="viewer">뷰어</option>
+          <Select
+            color="white"
+            width="120px"
+            defaultValue={permission}
+            onChange={(event) => handleChangeMenuPermission(event.target.value)}
+          >
+            <option value={MenuPermission.ADMIN}>어드민</option>
+            <option value={MenuPermission.MANAGER}>매니저</option>
+            <option value={MenuPermission.VIEWER}>뷰어</option>
           </Select>
         </Center>
       </Flex>
