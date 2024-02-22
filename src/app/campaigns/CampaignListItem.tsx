@@ -13,10 +13,22 @@ interface Props {
 
 const CampaignListItem = ({ campaign }: Props) => {
   const { permission } = useSnapshot(menuStore);
+
+  const handleChangeEnabled = async () => {
+    await fetch(`${process.env.ApiUrl}/api/campaigns/${campaign.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ enabled: !campaign.enabled }),
+    });
+  };
+
   return (
     <Tr>
       <Td>
-        <Switch isChecked={campaign.enabled} isDisabled={permission === MenuPermission.VIEWER} />
+        <Switch
+          isChecked={campaign.enabled}
+          isDisabled={permission === MenuPermission.VIEWER}
+          onChange={handleChangeEnabled}
+        />
       </Td>
       <Td>{campaign.name}</Td>
       <Td>{campaign.campaign_objective}</Td>

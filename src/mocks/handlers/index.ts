@@ -1,4 +1,4 @@
-import { getCampaigns } from './getCampaigns';
-import { getMe } from './getMe';
+import { getCampains, patchCampaignEnable } from './campaignsHandler';
+import { getMe } from './meHandler';
 
-export const handlers = [getMe, getCampaigns];
+export const handlers = [getMe, getCampains, patchCampaignEnable];

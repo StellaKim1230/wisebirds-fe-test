@@ -4,7 +4,7 @@ import CampaignListTable from './CampaignListTable';
 import { ResponseCampaigns } from '../../types/campaign';
 
 async function getCampaigns() {
-  const response = await fetch(`${process.env.API_URL}/api/campaigns`);
+  const response = await fetch(`${process.env.ApiUrl}/api/campaigns`);
   const campagins = await response.json();
   return campagins;
 }

@@ -6,11 +6,14 @@ import { Campaign, CampaignObjective, ResponseCampaigns } from '../../types/camp
  * @description 페이지네이션을 하기 위해 65개의 더미 데이터를 생성합니다.
  */
 
-export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
+const TotalElements = 65;
+const defaultSize = 25;
+
+export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const campaigns: Campaign[] = [];
   const url = new URL(request.url);
 
-  for (let i = 0; i < 65; i += 1) {
+  for (let i = 0; i < TotalElements; i += 1) {
     const campaign: Campaign = {
       id: i + 1,
       name: `캠페인${i + 1}`,
@@ -26,18 +29,33 @@ export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
     campaigns.push(campaign);
   }
 
+  const pageParams = url.searchParams.get('page');
+  const sizeParams = url.searchParams.get('size');
+
+  const size = sizeParams ? parseInt(sizeParams, 10) : defaultSize;
+  // TODO: 다시 계산.
+  const page = pageParams ? parseInt(pageParams, 10) : 0;
+
   const responseCampaings: ResponseCampaigns = {
-    content: campaigns.slice(0, 25),
-    total_elements: 65,
-    total_pages: 3,
+    content: campaigns.slice(page, size),
+    total_elements: TotalElements,
+    total_pages: Math.ceil(TotalElements / size),
     last: false,
     number: 0,
-    size: 25,
+    size,
     sort: {},
-    number_of_elements: 25,
+    number_of_elements: size,
     first: true,
     empty: false,
   };
 
   return HttpResponse.json(responseCampaings);
+});
+
+export const patchCampaignEnable = http.patch('/api/campaigns/:id', async ({ request, params }) => {
+  const { id } = params;
+  const enabled = await request.json();
+
+  //NOTE: id를 이용하여 캠페인을 찾아서 enabled를 변경합니다.
+  return HttpResponse.json({ result: true, id });
 });
