@@ -1,7 +1,7 @@
 'use client';
 
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Campaign } from '../../types/campaign';
 import CampaignListItem from './CampaignListItem';
 import { Pagination } from '../../components/Pagination';

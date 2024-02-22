@@ -25,11 +25,11 @@ export const getUsers = http.get('/api/users', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-  // TODO: 다시 계산.
   const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
+  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
 
   const responseUsers: ResponseUsers = {
-    content: users.slice(page - 1, defaultSize),
+    content: users.slice(startIndex, startIndex + defaultSize),
     total_elements: TotalElements,
     total_pages: Math.ceil(TotalElements / defaultSize),
     last: false,
