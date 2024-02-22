@@ -1,6 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Link as ChakraLink,
   Flex,
@@ -25,6 +26,7 @@ interface Props {
 
 const Header = ({ me }: Props) => {
   const { permission, updatePermission } = useSnapshot(menuStore);
+  const pathname = usePathname();
 
   const handleChangeMenuPermission = (value: string) => {
     if (value === MenuPermission.ADMIN) updatePermission(MenuPermission.ADMIN);
@@ -50,13 +52,13 @@ const Header = ({ me }: Props) => {
               <Text as="h1">Wisebirds</Text>
             </ChakraLink>
           </Center>
-          <Center as="li" padding="0 16px" height="48px">
+          <Center as="li" padding="0 16px" height="48px" bg={pathname.includes('campaigns') ? 'blue.600' : 'blue.400'}>
             <ChakraLink color="white" as={NextLink} href="/campaigns">
               캠페인
             </ChakraLink>
           </Center>
           {permission === MenuPermission.ADMIN && (
-            <Center as="li" padding="0 16px" height="48px">
+            <Center as="li" padding="0 16px" height="48px" bg={pathname.includes('users') ? 'blue.600' : 'blue.400'}>
               <ChakraLink color="white" as={NextLink} href="/users">
                 사용자
               </ChakraLink>
