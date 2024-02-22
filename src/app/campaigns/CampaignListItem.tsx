@@ -37,7 +37,7 @@ const CampaignListItem = ({ campaign }: Props) => {
 
   return (
     <Tr>
-      <Td>
+      <Td textAlign="center">
         <Switch isChecked={enabled} isDisabled={permission === MenuPermission.VIEWER} onChange={handleChangeEnabled} />
       </Td>
       <Td>{campaign.name}</Td>

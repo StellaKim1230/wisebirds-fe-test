@@ -12,7 +12,7 @@ const CampaignListTable = ({ campaigns }: Props) => {
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>상태</Th>
+            <Th textAlign="center">상태</Th>
             <Th>캠페인명</Th>
             <Th>캠페인 목적</Th>
             <Th isNumeric>노출수</Th>
