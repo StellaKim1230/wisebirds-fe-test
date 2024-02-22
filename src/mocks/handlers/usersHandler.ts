@@ -25,21 +25,18 @@ export const getUsers = http.get('/api/users', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-  const sizeParams = url.searchParams.get('size');
-
-  const size = sizeParams ? parseInt(sizeParams, 10) : defaultSize;
   // TODO: 다시 계산.
   const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
 
   const responseUsers: ResponseUsers = {
-    content: users.slice(page - 1, size),
+    content: users.slice(page - 1, defaultSize),
     total_elements: TotalElements,
-    total_pages: Math.ceil(TotalElements / size),
+    total_pages: Math.ceil(TotalElements / defaultSize),
     last: false,
     number: 0,
-    size,
+    size: defaultSize,
     sort: {},
-    number_of_elements: size,
+    number_of_elements: defaultSize,
     first: true,
     empty: false,
   };

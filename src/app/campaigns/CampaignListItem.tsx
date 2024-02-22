@@ -3,28 +3,23 @@
 import { useSnapshot } from 'valtio';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Tr, Td, Switch } from '@chakra-ui/react';
 import { menuStore } from '../../stores/menuStore';
 import { Campaign } from '../../types/campaign';
 import { MenuPermission } from '../../types/menu';
 import { roundAndConvertToPercentage } from '../../utils/roundAndConvertToPercentage';
 import { fetcher } from '../../utils/fetcher';
-import { defaultPage, defaultSize } from '../../constants';
 
 interface Props {
   campaign: Campaign;
+  page: number;
 }
 
-const CampaignListItem = ({ campaign }: Props) => {
+const CampaignListItem = ({ campaign, page }: Props) => {
   const [enabled, setEnabled] = useState<boolean>(campaign.enabled);
   const { permission } = useSnapshot(menuStore);
 
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page') ?? defaultPage;
-  const size = searchParams.get('size') ?? defaultSize;
-
-  const { mutate } = useSWR(`${process.env.ApiUrl}/api/campaigns?page=${page}&size=${size}`, fetcher);
+  const { mutate } = useSWR(`${process.env.ApiUrl}/api/campaigns?page=${page}`, fetcher);
 
   const handleChangeEnabled = async () => {
     setEnabled(!enabled);

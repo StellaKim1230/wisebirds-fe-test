@@ -30,21 +30,19 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-  const sizeParams = url.searchParams.get('size');
 
-  const size = sizeParams ? parseInt(sizeParams, 10) : defaultSize;
-  // TODO: 다시 계산.
   const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
+  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
 
   const responseCampaings: ResponseCampaigns = {
-    content: campaigns.slice(page - 1, size),
+    content: campaigns.slice(startIndex, startIndex + defaultSize),
     total_elements: TotalElements,
-    total_pages: Math.ceil(TotalElements / size),
+    total_pages: Math.ceil(TotalElements / defaultSize),
     last: false,
     number: 0,
-    size,
+    size: defaultSize,
     sort: {},
-    number_of_elements: size,
+    number_of_elements: defaultSize,
     first: true,
     empty: false,
   };
@@ -54,8 +52,9 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
 
 export const patchCampaignEnable = http.patch('/api/campaigns/:id', async ({ request, params }) => {
   const { id } = params;
-  const enabled = await request.json();
 
   //NOTE: id를 이용하여 캠페인을 찾아서 enabled를 변경합니다.
+  const enabled = await request.json();
+
   return HttpResponse.json({ result: true, id });
 });

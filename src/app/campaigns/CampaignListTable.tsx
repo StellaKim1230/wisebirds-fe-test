@@ -1,34 +1,59 @@
-import { Table, Thead, Tbody, Tr, Th, TableContainer } from '@chakra-ui/react';
+'use client';
+
+import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Campaign } from '../../types/campaign';
 import CampaignListItem from './CampaignListItem';
+import { Pagination } from '../../components/Pagination';
+import { defaultSize } from '../../constants';
+import { useState } from 'react';
 
 interface Props {
   campaigns: Campaign[];
+  page: number;
+  totalCount: number;
 }
 
-const CampaignListTable = ({ campaigns }: Props) => {
+const CampaignListTable = ({ campaigns, page, totalCount }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [currentCampaigns, setCurrentCampaigns] = useState<Campaign[]>(campaigns);
+
+  const handlePageChange = async (page: number) => {
+    router.replace(`${pathname}?page=${page}`);
+    const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
+    const campaigns = await response.json();
+    setCurrentCampaigns(campaigns.content);
+  };
+
   return (
-    <TableContainer maxHeight="calc(100vh - 200px)" overflowY="auto">
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th textAlign="center">상태</Th>
-            <Th>캠페인명</Th>
-            <Th>캠페인 목적</Th>
-            <Th isNumeric>노출수</Th>
-            <Th isNumeric>클릭수</Th>
-            <Th isNumeric>CTR</Th>
-            <Th isNumeric>동영상조회수</Th>
-            <Th isNumeric>VTR</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {campaigns.map((campaign) => (
-            <CampaignListItem key={campaign.id} campaign={campaign} />
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer maxHeight="calc(100vh - 176px)" overflowY="auto" marginBottom="16px">
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th textAlign="center">상태</Th>
+              <Th>캠페인명</Th>
+              <Th>캠페인 목적</Th>
+              <Th isNumeric>노출수</Th>
+              <Th isNumeric>클릭수</Th>
+              <Th isNumeric>CTR</Th>
+              <Th isNumeric>동영상조회수</Th>
+              <Th isNumeric>VTR</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {currentCampaigns.map((campaign) => (
+              <CampaignListItem key={campaign.id} campaign={campaign} page={page} />
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Center height="40px">
+        <Pagination total={totalCount} size={defaultSize} page={page} setPage={handlePageChange} />
+      </Center>
+    </>
   );
 };
 
