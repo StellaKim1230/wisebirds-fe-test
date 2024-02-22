@@ -7,7 +7,8 @@ import { Campaign, CampaignObjective, ResponseCampaigns } from '../../types/camp
  */
 
 const TotalElements = 65;
-const defaultSize = 25;
+export const defaultCampainsSize = 25;
+export const defaultCampainsPage = 1;
 
 export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const campaigns: Campaign[] = [];
@@ -32,12 +33,12 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const pageParams = url.searchParams.get('page');
   const sizeParams = url.searchParams.get('size');
 
-  const size = sizeParams ? parseInt(sizeParams, 10) : defaultSize;
+  const size = sizeParams ? parseInt(sizeParams, 10) : defaultCampainsSize;
   // TODO: 다시 계산.
-  const page = pageParams ? parseInt(pageParams, 10) : 0;
+  const page = pageParams ? parseInt(pageParams, 10) : defaultCampainsPage;
 
   const responseCampaings: ResponseCampaigns = {
-    content: campaigns.slice(page, size),
+    content: campaigns.slice(page - 1, size),
     total_elements: TotalElements,
     total_pages: Math.ceil(TotalElements / size),
     last: false,

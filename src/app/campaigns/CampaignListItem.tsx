@@ -1,34 +1,44 @@
 'use client';
 
 import { useSnapshot } from 'valtio';
+import useSWR from 'swr';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Tr, Td, Switch } from '@chakra-ui/react';
 import { menuStore } from '../../stores/menuStore';
 import { Campaign } from '../../types/campaign';
 import { MenuPermission } from '../../types/menu';
 import { roundAndConvertToPercentage } from '../../utils/roundAndConvertToPercentage';
+import { fetcher } from '../../utils/fetcher';
+import { defaultCampainsPage, defaultCampainsSize } from '../../mocks/handlers/campaignsHandler';
 
 interface Props {
   campaign: Campaign;
 }
 
 const CampaignListItem = ({ campaign }: Props) => {
+  const [enabled, setEnabled] = useState<boolean>(campaign.enabled);
   const { permission } = useSnapshot(menuStore);
 
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') ?? defaultCampainsPage;
+  const size = searchParams.get('size') ?? defaultCampainsSize;
+
+  const { mutate } = useSWR(`${process.env.ApiUrl}/api/campaigns?page=${page}&size=${size}`, fetcher);
+
   const handleChangeEnabled = async () => {
+    setEnabled(!enabled);
     await fetch(`${process.env.ApiUrl}/api/campaigns/${campaign.id}`, {
       method: 'PATCH',
-      body: JSON.stringify({ enabled: !campaign.enabled }),
+      body: JSON.stringify({ enabled: !enabled }),
     });
+    await mutate();
   };
 
   return (
     <Tr>
       <Td>
-        <Switch
-          isChecked={campaign.enabled}
-          isDisabled={permission === MenuPermission.VIEWER}
-          onChange={handleChangeEnabled}
-        />
+        <Switch isChecked={enabled} isDisabled={permission === MenuPermission.VIEWER} onChange={handleChangeEnabled} />
       </Td>
       <Td>{campaign.name}</Td>
       <Td>{campaign.campaign_objective}</Td>
