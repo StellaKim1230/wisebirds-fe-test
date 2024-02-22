@@ -1,14 +1,13 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 import { Campaign, CampaignObjective, ResponseCampaigns } from '../../types/campaign';
+import { defaultPage, defaultSize } from '../../constants';
 
 /**
  * @description 페이지네이션을 하기 위해 65개의 더미 데이터를 생성합니다.
  */
 
 const TotalElements = 65;
-export const defaultCampainsSize = 25;
-export const defaultCampainsPage = 1;
 
 export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const campaigns: Campaign[] = [];
@@ -33,9 +32,9 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const pageParams = url.searchParams.get('page');
   const sizeParams = url.searchParams.get('size');
 
-  const size = sizeParams ? parseInt(sizeParams, 10) : defaultCampainsSize;
+  const size = sizeParams ? parseInt(sizeParams, 10) : defaultSize;
   // TODO: 다시 계산.
-  const page = pageParams ? parseInt(pageParams, 10) : defaultCampainsPage;
+  const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
 
   const responseCampaings: ResponseCampaigns = {
     content: campaigns.slice(page - 1, size),

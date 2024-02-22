@@ -10,7 +10,7 @@ import { Campaign } from '../../types/campaign';
 import { MenuPermission } from '../../types/menu';
 import { roundAndConvertToPercentage } from '../../utils/roundAndConvertToPercentage';
 import { fetcher } from '../../utils/fetcher';
-import { defaultCampainsPage, defaultCampainsSize } from '../../mocks/handlers/campaignsHandler';
+import { defaultPage, defaultSize } from '../../constants';
 
 interface Props {
   campaign: Campaign;
@@ -21,8 +21,8 @@ const CampaignListItem = ({ campaign }: Props) => {
   const { permission } = useSnapshot(menuStore);
 
   const searchParams = useSearchParams();
-  const page = searchParams.get('page') ?? defaultCampainsPage;
-  const size = searchParams.get('size') ?? defaultCampainsSize;
+  const page = searchParams.get('page') ?? defaultPage;
+  const size = searchParams.get('size') ?? defaultSize;
 
   const { mutate } = useSWR(`${process.env.ApiUrl}/api/campaigns?page=${page}&size=${size}`, fetcher);
 
