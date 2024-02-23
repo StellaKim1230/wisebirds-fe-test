@@ -37,7 +37,7 @@ $ pnpm mock
 $ pnpm dev
 ```
 
-## 프로젝트 구조 (다시 작성)
+## 프로젝트 구조
 
 ```bash
 wisebirds-fe-test
