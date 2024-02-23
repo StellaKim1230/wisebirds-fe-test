@@ -56,14 +56,12 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
   const handleCreateUser = async (request: RequestUser): Promise<void> => {
     const response = await fetch(`${process.env.ApiUrl}/api/users`, {
       method: 'POST',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(request),
     });
     const { result, id } = await response.json();
 
+    // NOTE: 사용자 생성 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
+    // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자를 맨 앞에 추가합니다.
     if (result) {
       await mutate();
       const newUser = { id, email: request.email, name: request.name, last_login_at: new Date().toString() };
