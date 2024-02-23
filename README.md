@@ -48,8 +48,6 @@ wisebirds-fe-test
 │ │  └─ 공용 컴포넌트
 │ ├─ mocks
 │ │  └─ mock 서버와 관련된 파일들
-│ ├─ pages
-│ │  └─ url path에 따라 렌더링되는 페이지들
 │ ├─ stores
 │ │  └─ 상태 저장과 관련된 파일들
 │ ├─ types
