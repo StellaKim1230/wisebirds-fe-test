@@ -16,7 +16,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  ModalFooter,
   ModalBody,
 } from '@chakra-ui/react';
 import { User } from '../../types/user';
@@ -83,15 +82,8 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
           <ModalHeader>사용자 생성</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <UserCreation />
+            <UserCreation initialRef={initialRef} onClose={onClose} />
           </ModalBody>
-
-          <ModalFooter>
-            <Button mr={3} onClick={onClose}>
-              취소
-            </Button>
-            <Button colorScheme="blue">생성</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
