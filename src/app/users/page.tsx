@@ -1,5 +1,5 @@
 import { use } from 'react';
-import { Text, Box, Divider, Button } from '@chakra-ui/react';
+import { Text, Box, Divider } from '@chakra-ui/react';
 import UserListTable from './UserListTable';
 import { ResponseUsers } from '../../types/user';
 import { defaultPage } from '../../constants';
@@ -24,10 +24,6 @@ export default function UsersPage({
         사용자 관리
       </Text>
       <Divider marginBottom="16px" />
-      <Button size="sm" fontWeight="bold" colorScheme="blue">
-        생성
-      </Button>
-      <Divider marginTop="16px" />
       <UserListTable users={users.content} page={page} totalCount={users.total_elements} />
     </Box>
   );
