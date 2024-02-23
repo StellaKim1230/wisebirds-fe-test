@@ -18,13 +18,15 @@ import {
   ModalCloseButton,
   ModalBody,
 } from '@chakra-ui/react';
-import { User } from '../../types/user';
+import useSWR from 'swr';
+import { RequestUser, User } from '../../types/user';
 import UserListItem from './UserListItem';
 import { Pagination } from '../../components/Pagination';
 import { defaultSize } from '../../constants';
 import { useRouter, usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import UserCreation from './UserCreation';
+import { fetcher } from '../../utils/fetcher';
 
 interface Props {
   users: User[];
@@ -48,6 +50,27 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mutate } = useSWR(`${process.env.ApiUrl}/api/users?page=1`, fetcher);
+
+  const handleCreateUser = async (request: RequestUser): Promise<void> => {
+    const response = await fetch(`${process.env.ApiUrl}/api/users`, {
+      method: 'POST',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+    const { result, id } = await response.json();
+
+    if (result) {
+      await mutate();
+      const newUser = { id, email: request.email, name: request.name, last_login_at: new Date().toString() };
+      setCurrentUsers([newUser, ...currentUsers]);
+      onClose();
+    }
+  };
 
   return (
     <>
@@ -82,7 +105,7 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
           <ModalHeader>사용자 생성</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <UserCreation initialRef={initialRef} onClose={onClose} />
+            <UserCreation initialRef={initialRef} onClose={onClose} onCreate={handleCreateUser} />
           </ModalBody>
         </ModalContent>
       </Modal>

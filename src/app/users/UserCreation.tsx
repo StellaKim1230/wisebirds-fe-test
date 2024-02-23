@@ -13,13 +13,15 @@ import { MutableRefObject, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import type { FieldInputProps, FormikProps } from 'formik';
 import * as Yup from 'yup';
+import { RequestUser } from '@/types/user';
 
 interface Props {
   initialRef: MutableRefObject<null>;
   onClose: () => void;
+  onCreate: (request: RequestUser) => Promise<void>;
 }
 
-const UserCreation = ({ initialRef, onClose }: Props) => {
+const UserCreation = ({ initialRef, onClose, onCreate }: Props) => {
   const userSchema = Yup.object().shape({
     email: Yup.string()
       .required('아이디(이메일)을 입력하세요.')
@@ -34,7 +36,7 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
       .min(8, '8~15자 영문, 숫자, 특수문자를 사용하세요.')
       .max(15, '8~15자 영문, 숫자, 특수문자를 사용하세요.')
       .required('비밀번호를 입력하세요.'),
-    passwordConfirm: Yup.string()
+    repeat_password: Yup.string()
       .oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.')
       .required('비밀번호를 입력하세요.'),
     name: Yup.string()
@@ -45,16 +47,17 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [existsEmail, setExistsEmail] = useState<string>('');
 
-  const handleCheckEmailExists = async (email: string) => {
+  const handleCheckEmailExists = async (email: string): Promise<boolean> => {
     setExistsEmail('');
     const response = await fetch(`${process.env.ApiUrl}/api/users/${email}/exists`, {
       method: 'GET',
     });
     const { result } = await response.json();
     if (result) setExistsEmail('이미 사용중인 이메일입니다. 다른 이메일을 입력하세요.');
+    return result;
   };
 
   return (
@@ -63,13 +66,16 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
         initialValues={{
           email: '',
           password: '',
-          passwordConfirm: '',
+          repeat_password: '',
           name: '',
         }}
         validationSchema={userSchema}
         onSubmit={async (values) => {
-          await handleCheckEmailExists(values.email);
-          console.log(values);
+          const result = await handleCheckEmailExists(values.email);
+
+          if (!result) {
+            await onCreate(values);
+          }
         }}
       >
         {({ isSubmitting }) => (
@@ -97,6 +103,7 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
                       {...field}
                       name="password"
                       placeholder="영문, 숫자, 특수문자 조합 8-15자"
+                      autoComplete="off"
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
@@ -110,30 +117,35 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
               )}
             </Field>
 
-            <Field name="passwordConfirm">
+            <Field name="repeat_password">
               {({
                 field,
                 form,
               }: {
                 field: FieldInputProps<string>;
-                form: FormikProps<{ passwordConfirm: string }>;
+                form: FormikProps<{ repeat_password: string }>;
               }) => (
                 <FormControl
                   mt={4}
                   isRequired
-                  isInvalid={form.errors.passwordConfirm && form.touched.passwordConfirm ? true : false}
+                  isInvalid={form.errors.repeat_password && form.touched.repeat_password ? true : false}
                 >
-                  <FormLabel>비밀번호</FormLabel>
+                  <FormLabel>비밀번호 확인</FormLabel>
                   <InputGroup size="md">
-                    <Input type={showPasswordConfirm ? 'text' : 'password'} {...field} name="passwordConfirm" />
+                    <Input
+                      type={showRepeatPassword ? 'text' : 'password'}
+                      {...field}
+                      name="repeat_password"
+                      autoComplete="off"
+                    />
                     <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}>
-                        {showPasswordConfirm ? 'Hide' : 'Show'}
+                      <Button h="1.75rem" size="sm" onClick={() => setShowRepeatPassword(!showRepeatPassword)}>
+                        {showRepeatPassword ? 'Hide' : 'Show'}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
 
-                  <FormErrorMessage>{form.errors.passwordConfirm}</FormErrorMessage>
+                  <FormErrorMessage>{form.errors.repeat_password}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
