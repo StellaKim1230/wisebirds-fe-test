@@ -44,8 +44,18 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
       .required('이름을 입력하세요.'),
   });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
+  const [existsEmail, setExistsEmail] = useState<string>('');
+
+  const handleCheckEmailExists = async (email: string) => {
+    setExistsEmail('');
+    const response = await fetch(`${process.env.ApiUrl}/api/users/${email}/exists`, {
+      method: 'GET',
+    });
+    const { result } = await response.json();
+    if (result) setExistsEmail('이미 사용중인 이메일입니다. 다른 이메일을 입력하세요.');
+  };
 
   return (
     <>
@@ -57,7 +67,8 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
           name: '',
         }}
         validationSchema={userSchema}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
+          await handleCheckEmailExists(values.email);
           console.log(values);
         }}
       >
@@ -65,10 +76,13 @@ const UserCreation = ({ initialRef, onClose }: Props) => {
           <Form>
             <Field name="email">
               {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ email: string }> }) => (
-                <FormControl isRequired isInvalid={form.errors.email && form.touched.email ? true : false}>
+                <FormControl
+                  isRequired
+                  isInvalid={(form.errors.email && form.touched.email) || existsEmail ? true : false}
+                >
                   <FormLabel>아이디</FormLabel>
                   <Input ref={initialRef} {...field} name="email" />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  <FormErrorMessage>{form.errors.email || existsEmail}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

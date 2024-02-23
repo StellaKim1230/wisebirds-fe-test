@@ -43,3 +43,9 @@ export const getUsers = http.get('/api/users', ({ request }) => {
 
   return HttpResponse.json(responseUsers);
 });
+
+export const checkEmailDuplicate = http.get('/api/users/:email/exists', async ({ params }) => {
+  // NOTE: 이메일 중복 체크를 해야하지만, 임의로 result를 faker로 생성합니다.
+  const { email } = params;
+  return HttpResponse.json({ result: faker.datatype.boolean() });
+});

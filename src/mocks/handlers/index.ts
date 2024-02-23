@@ -1,5 +1,5 @@
 import { getMe } from './meHandler';
 import { getCampains, patchCampaignEnable } from './campaignsHandler';
-import { getUsers } from './usersHandler';
+import { getUsers, checkEmailDuplicate } from './usersHandler';
 
-export const handlers = [getMe, getCampains, patchCampaignEnable, getUsers];
+export const handlers = [getMe, getCampains, patchCampaignEnable, getUsers, checkEmailDuplicate];
