@@ -9,7 +9,7 @@ import { defaultPage, defaultSize } from '../../constants';
 
 const TotalElements = 65;
 
-export const getCampains = http.get('/api/campaigns', ({ request }) => {
+export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
   const campaigns: Campaign[] = [];
   const url = new URL(request.url);
 
@@ -34,7 +34,7 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
   const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
   const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
 
-  const responseCampaings: ResponseCampaigns = {
+  const responseCampaigns: ResponseCampaigns = {
     content: campaigns.slice(startIndex, startIndex + defaultSize),
     total_elements: TotalElements,
     total_pages: Math.ceil(TotalElements / defaultSize),
@@ -47,7 +47,7 @@ export const getCampains = http.get('/api/campaigns', ({ request }) => {
     empty: false,
   };
 
-  return HttpResponse.json(responseCampaings);
+  return HttpResponse.json(responseCampaigns);
 });
 
 export const patchCampaignEnable = http.patch('/api/campaigns/:id', async ({ request, params }) => {
