@@ -1,4 +1,4 @@
-import { fa, faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 import { defaultPage, defaultSize } from '../../constants';
 import { ResponseUsers, User } from '../../types/user';
@@ -45,12 +45,16 @@ export const getUsers = http.get('/api/users', ({ request }) => {
 });
 
 export const checkEmailDuplicate = http.get('/api/users/:email/exists', async ({ params }) => {
-  // NOTE: 이메일 중복 체크를 해야하지만, 임의로 result를 faker로 생성합니다.
-  const { email } = params;
+  // NOTE: 이메일 중복 체크 하는 로직, 임의로 result를 faker로 생성합니다.
   return HttpResponse.json({ result: faker.datatype.boolean() });
 });
 
 export const createUser = http.post('/api/users', async ({ request }) => {
-  // NOTE: 이메일 생성 후, 임의로 result를 faker로 생성합니다.
+  // NOTE: 사용자 생성 후, 임의로 result를 faker로 생성합니다.
   return HttpResponse.json({ result: faker.datatype.boolean(), id: faker.number.int() });
+});
+
+export const editUser = http.patch('/api/users/:id', async ({ request, params }) => {
+  // NOTE: 사용자 수정 후, result, id를 리턴합니다.
+  return HttpResponse.json({ result: true, id: params.id });
 });

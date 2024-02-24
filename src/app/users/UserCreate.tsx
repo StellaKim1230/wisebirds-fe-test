@@ -61,118 +61,110 @@ const UserCreate = ({ initialRef, onClose, onCreate }: Props) => {
   };
 
   return (
-    <>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-          repeat_password: '',
-          name: '',
-        }}
-        validationSchema={userSchema}
-        onSubmit={async (values) => {
-          const result = await handleCheckEmailExists(values.email);
+    <Formik
+      initialValues={{
+        email: '',
+        password: '',
+        repeat_password: '',
+        name: '',
+      }}
+      validationSchema={userSchema}
+      onSubmit={async (values) => {
+        const result = await handleCheckEmailExists(values.email);
 
-          if (!result) {
-            await onCreate(values);
-          }
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field name="email">
-              {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ email: string }> }) => (
-                <FormControl
-                  isRequired
-                  isInvalid={(form.errors.email && form.touched.email) || existsEmail ? true : false}
-                >
-                  <FormLabel>아이디</FormLabel>
-                  <Input ref={initialRef} {...field} name="email" />
-                  <FormErrorMessage>{form.errors.email || existsEmail}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+        if (!result) {
+          await onCreate(values);
+        }
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <Field name="email">
+            {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ email: string }> }) => (
+              <FormControl
+                isRequired
+                isInvalid={(form.errors.email && form.touched.email) || existsEmail ? true : false}
+              >
+                <FormLabel>아이디</FormLabel>
+                <Input ref={initialRef} {...field} name="email" />
+                <FormErrorMessage>{form.errors.email || existsEmail}</FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
 
-            <Field name="password">
-              {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ password: string }> }) => (
-                <FormControl mt={4} isRequired isInvalid={form.errors.password && form.touched.password ? true : false}>
-                  <FormLabel>비밀번호</FormLabel>
-                  <InputGroup size="md">
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      {...field}
-                      name="password"
-                      placeholder="영문, 숫자, 특수문자 조합 8-15자"
-                      autoComplete="off"
-                    />
-                    <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
-                        {showPassword ? 'Hide' : 'Show'}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
+          <Field name="password">
+            {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ password: string }> }) => (
+              <FormControl mt={4} isRequired isInvalid={form.errors.password && form.touched.password ? true : false}>
+                <FormLabel>비밀번호</FormLabel>
+                <InputGroup size="md">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    {...field}
+                    name="password"
+                    placeholder="영문, 숫자, 특수문자 조합 8-15자"
+                    autoComplete="off"
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
 
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+                <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
 
-            <Field name="repeat_password">
-              {({
-                field,
-                form,
-              }: {
-                field: FieldInputProps<string>;
-                form: FormikProps<{ repeat_password: string }>;
-              }) => (
-                <FormControl
-                  mt={4}
-                  isRequired
-                  isInvalid={form.errors.repeat_password && form.touched.repeat_password ? true : false}
-                >
-                  <FormLabel>비밀번호 확인</FormLabel>
-                  <InputGroup size="md">
-                    <Input
-                      type={showRepeatPassword ? 'text' : 'password'}
-                      {...field}
-                      name="repeat_password"
-                      autoComplete="off"
-                    />
-                    <InputRightElement width="4.5rem">
-                      <Button h="1.75rem" size="sm" onClick={() => setShowRepeatPassword(!showRepeatPassword)}>
-                        {showRepeatPassword ? 'Hide' : 'Show'}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
+          <Field name="repeat_password">
+            {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ repeat_password: string }> }) => (
+              <FormControl
+                mt={4}
+                isRequired
+                isInvalid={form.errors.repeat_password && form.touched.repeat_password ? true : false}
+              >
+                <FormLabel>비밀번호 확인</FormLabel>
+                <InputGroup size="md">
+                  <Input
+                    type={showRepeatPassword ? 'text' : 'password'}
+                    {...field}
+                    name="repeat_password"
+                    autoComplete="off"
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button h="1.75rem" size="sm" onClick={() => setShowRepeatPassword(!showRepeatPassword)}>
+                      {showRepeatPassword ? 'Hide' : 'Show'}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
 
-                  <FormErrorMessage>{form.errors.repeat_password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+                <FormErrorMessage>{form.errors.repeat_password}</FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
 
-            <Field name="name">
-              {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ name: string }> }) => (
-                <FormControl mt={4} isRequired isInvalid={form.errors.name && form.touched.name ? true : false}>
-                  <FormLabel>이름</FormLabel>
-                  <Input {...field} name="name" />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+          <Field name="name">
+            {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<{ name: string }> }) => (
+              <FormControl mt={4} isRequired isInvalid={form.errors.name && form.touched.name ? true : false}>
+                <FormLabel>이름</FormLabel>
+                <Input {...field} name="name" />
+                <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+              </FormControl>
+            )}
+          </Field>
 
-            <Divider marginTop="24px" marginBottom="24px" />
-            <Flex justifyContent="flex-end">
-              <Button mr={3} onClick={onClose}>
-                취소
-              </Button>
-              <Button type="submit" colorScheme="blue" isLoading={isSubmitting}>
-                생성
-              </Button>
-            </Flex>
-          </Form>
-        )}
-      </Formik>
-    </>
+          <Divider marginTop="24px" marginBottom="24px" />
+          <Flex justifyContent="flex-end">
+            <Button mr={3} onClick={onClose}>
+              취소
+            </Button>
+            <Button type="submit" colorScheme="blue" isLoading={isSubmitting}>
+              생성
+            </Button>
+          </Flex>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
