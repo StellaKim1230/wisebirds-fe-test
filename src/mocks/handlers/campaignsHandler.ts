@@ -54,7 +54,5 @@ export const patchCampaignEnable = http.patch('/api/campaigns/:id', async ({ req
   const { id } = params;
 
   //NOTE: id를 이용하여 캠페인을 찾아서 enabled를 변경합니다.
-  const enabled = await request.json();
-
   return HttpResponse.json({ result: true, id });
 });
