@@ -37,7 +37,7 @@ $ pnpm mock
 $ pnpm dev
 ```
 
-### 실행하기 전에 root 디렉토리에 .env 파일을 만들어서 아래 코드를 추가합니다.
+### 실행하기 전에 root directory에 .env 파일을 만들어서 아래 코드를 추가합니다.
 
 ```javascript
 API_URL = 'http://localhost:4000';
