@@ -21,7 +21,7 @@ interface Props {
   onCreate: (request: RequestUser) => Promise<void>;
 }
 
-const UserCreation = ({ initialRef, onClose, onCreate }: Props) => {
+const UserCreate = ({ initialRef, onClose, onCreate }: Props) => {
   const userSchema = Yup.object().shape({
     email: Yup.string()
       .required('아이디(이메일)을 입력하세요.')
@@ -176,4 +176,4 @@ const UserCreation = ({ initialRef, onClose, onCreate }: Props) => {
   );
 };
 
-export default UserCreation;
+export default UserCreate;

@@ -25,7 +25,7 @@ import { Pagination } from '../../components/Pagination';
 import { defaultSize } from '../../constants';
 import { useRouter, usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
-import UserCreation from './UserCreation';
+import UserCreate from './UserCreate';
 import { fetcher } from '../../utils/fetcher';
 
 interface Props {
@@ -103,7 +103,7 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
           <ModalHeader>사용자 생성</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <UserCreation initialRef={initialRef} onClose={onClose} onCreate={handleCreateUser} />
+            <UserCreate initialRef={initialRef} onClose={onClose} onCreate={handleCreateUser} />
           </ModalBody>
         </ModalContent>
       </Modal>
