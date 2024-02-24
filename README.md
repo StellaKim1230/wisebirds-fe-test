@@ -37,6 +37,12 @@ $ pnpm mock
 $ pnpm dev
 ```
 
+### 실행하기 전에 root 디렉토리에 .env 파일을 만들어서 아래 코드를 추가합니다.
+
+```javascript
+API_URL = 'http://localhost:4000';
+```
+
 ## 프로젝트 구조
 
 ```bash
@@ -57,3 +63,8 @@ wisebirds-fe-test
 │ └─ constants
 └─   └─ 상수 관리 파일
 ```
+
+## 기타
+
+- mock 서버와 faker 라이브러리를 사용하여 데이터를 생성한 후 구현했습니다.
+- PATCH 및 POST 메서드로 호출하는 API는 성공적으로 호출되었다는 가정하에, 호출하고 mutate 한 후 화면을 업데이트하는 방식으로 구현했습니다.
