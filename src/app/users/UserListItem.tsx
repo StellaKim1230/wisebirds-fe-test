@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react';
 import { DateTime } from 'luxon';
+import useSWR from 'swr';
 import {
   Tr,
   Td,
@@ -11,10 +13,8 @@ import {
   ModalBody,
   useDisclosure,
 } from '@chakra-ui/react';
-import { User } from '../../types/user';
-import { useRef, useState } from 'react';
 import UserEdit from './UserEdit';
-import useSWR from 'swr';
+import { User } from '../../types/user';
 import { fetcher } from '../../utils/fetcher';
 
 interface Props {

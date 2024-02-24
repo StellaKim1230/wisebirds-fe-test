@@ -2,6 +2,7 @@
 
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSnapshot } from 'valtio';
 import {
   Link as ChakraLink,
   Flex,
@@ -15,10 +16,9 @@ import {
   PopoverBody,
   Text,
 } from '@chakra-ui/react';
-import { useSnapshot } from 'valtio';
 import { menuStore } from '../stores/menuStore';
 import { Member } from '../types/member';
-import { MenuPermission } from '..//types/menu';
+import { MenuPermission } from '../types/menu';
 
 interface Props {
   me: Member;

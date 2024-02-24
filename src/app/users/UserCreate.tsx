@@ -1,3 +1,4 @@
+import { MutableRefObject, useState } from 'react';
 import {
   Button,
   Divider,
@@ -9,11 +10,10 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { MutableRefObject, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import type { FieldInputProps, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { RequestUser } from '@/types/user';
+import { RequestUser } from '../../types/user';
 
 interface Props {
   initialRef: MutableRefObject<null>;

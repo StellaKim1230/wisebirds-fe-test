@@ -1,5 +1,8 @@
 'use client';
 
+import useSWR from 'swr';
+import { useRef, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   Table,
   Thead,
@@ -18,15 +21,12 @@ import {
   ModalCloseButton,
   ModalBody,
 } from '@chakra-ui/react';
-import useSWR from 'swr';
-import { RequestUser, User } from '../../types/user';
 import UserListItem from './UserListItem';
-import { Pagination } from '../../components/Pagination';
-import { defaultSize } from '../../constants';
-import { useRouter, usePathname } from 'next/navigation';
-import { useRef, useState } from 'react';
 import UserCreate from './UserCreate';
+import { Pagination } from '../../components/Pagination';
+import { RequestUser, User } from '../../types/user';
 import { fetcher } from '../../utils/fetcher';
+import { defaultSize } from '../../constants';
 
 interface Props {
   users: User[];

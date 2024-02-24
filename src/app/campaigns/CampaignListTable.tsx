@@ -1,12 +1,12 @@
 'use client';
 
-import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Campaign } from '../../types/campaign';
+import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/react';
 import CampaignListItem from './CampaignListItem';
 import { Pagination } from '../../components/Pagination';
+import { Campaign } from '../../types/campaign';
 import { defaultSize } from '../../constants';
-import { useState } from 'react';
 
 interface Props {
   campaigns: Campaign[];

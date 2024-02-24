@@ -1,8 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import useSWR from 'swr';
-import { useState } from 'react';
 import { Tr, Td, Switch } from '@chakra-ui/react';
 import { menuStore } from '../../stores/menuStore';
 import { Campaign } from '../../types/campaign';

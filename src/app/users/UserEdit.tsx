@@ -1,9 +1,9 @@
 import { MutableRefObject } from 'react';
+import { Divider, FormControl, FormErrorMessage, FormLabel, Input, Text, Flex, Button } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import type { FieldInputProps, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { User } from '../../types/user';
-import { Divider, FormControl, FormErrorMessage, FormLabel, Input, Text, Flex, Button } from '@chakra-ui/react';
 
 interface Props {
   initialRef: MutableRefObject<null>;

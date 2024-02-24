@@ -1,19 +1,16 @@
-import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
-import { defaultPage, defaultSize } from '../../constants';
+import { faker } from '@faker-js/faker';
 import { ResponseUsers, User } from '../../types/user';
+import { defaultPage, defaultSize, totalElements } from '../../constants';
 
 /**
- * @description 페이지네이션을 하기 위해 100개의 더미 데이터를 생성합니다.
+ * @description faker 라이브러리를 이용하여 100개의 데이터를 생성합니다.
  */
-
-const TotalElements = 100;
-
 export const getUsers = http.get('/api/users', ({ request }) => {
   const users: User[] = [];
   const url = new URL(request.url);
 
-  for (let i = 0; i < TotalElements; i += 1) {
+  for (let i = 0; i < totalElements; i += 1) {
     const user: User = {
       id: i + 1,
       email: `user${i + 1}@wisebirds.ai`,
@@ -30,8 +27,8 @@ export const getUsers = http.get('/api/users', ({ request }) => {
 
   const responseUsers: ResponseUsers = {
     content: users.slice(startIndex, startIndex + defaultSize),
-    total_elements: TotalElements,
-    total_pages: Math.ceil(TotalElements / defaultSize),
+    total_elements: totalElements,
+    total_pages: Math.ceil(totalElements / defaultSize),
     last: false,
     number: 0,
     size: defaultSize,
