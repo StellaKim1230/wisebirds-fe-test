@@ -8,6 +8,7 @@ import { menuStore } from '../../stores/menuStore';
 import { Campaign } from '../../types/campaign';
 import { MenuPermission } from '../../types/menu';
 import { fetcher, roundAndConvertToPercentage } from '../../utils';
+import { HttpMethod } from '../../constants';
 
 interface Props {
   campaign: Campaign;
@@ -24,7 +25,7 @@ const CampaignListItem = ({ campaign, page }: Props) => {
     try {
       setEnabled(!enabled);
       await fetch(`${process.env.ApiUrl}/api/campaigns/${campaign.id}`, {
-        method: 'PATCH',
+        method: HttpMethod.PATCH,
         body: JSON.stringify({ enabled: !enabled }),
       });
       await mutate();

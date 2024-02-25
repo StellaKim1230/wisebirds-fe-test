@@ -3,7 +3,7 @@ import { Text, Box, Divider } from '@chakra-ui/react';
 import UserListTable from './UserListTable';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { ResponseUsers } from '../../types/user';
-import { defaultPage } from '../../constants';
+import { defaultStartPage } from '../../constants';
 
 async function getUsers(page: number) {
   try {
@@ -20,7 +20,7 @@ export default function UsersPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const page = Number(searchParams.page) || defaultPage;
+  const page = Number(searchParams.page) || defaultStartPage;
   const users: ResponseUsers = use(getUsers(page));
 
   return (

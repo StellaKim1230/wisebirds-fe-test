@@ -26,7 +26,7 @@ import UserCreate from './UserCreate';
 import Pagination from '../../components/Pagination';
 import { RequestUser, User } from '../../types/user';
 import { fetcher } from '../../utils';
-import { defaultSize } from '../../constants';
+import { defaultPageSize, HttpMethod } from '../../constants';
 
 interface Props {
   users: User[];
@@ -60,7 +60,7 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
   const handleCreateUser = async (request: RequestUser): Promise<void> => {
     try {
       const response = await fetch(`${process.env.ApiUrl}/api/users`, {
-        method: 'POST',
+        method: HttpMethod.POST,
         body: JSON.stringify(request),
       });
       const { result, id } = await response.json();
@@ -102,7 +102,7 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
         </Table>
       </TableContainer>
       <Center height="40px">
-        <Pagination total={totalCount} size={defaultSize} page={page} setPage={handlePageChange} />
+        <Pagination total={totalCount} size={defaultPageSize} page={page} setPage={handlePageChange} />
       </Center>
 
       <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>

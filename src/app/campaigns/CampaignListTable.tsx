@@ -6,7 +6,7 @@ import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/
 import CampaignListItem from './CampaignListItem';
 import Pagination from '../../components/Pagination';
 import { Campaign } from '../../types/campaign';
-import { defaultSize } from '../../constants';
+import { defaultPageSize } from '../../constants';
 
 interface Props {
   campaigns: Campaign[];
@@ -55,7 +55,7 @@ const CampaignListTable = ({ campaigns, page, totalCount }: Props) => {
         </Table>
       </TableContainer>
       <Center height="40px">
-        <Pagination total={totalCount} size={defaultSize} page={page} setPage={handlePageChange} />
+        <Pagination total={totalCount} size={defaultPageSize} page={page} setPage={handlePageChange} />
       </Center>
     </>
   );

@@ -1,7 +1,8 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { ResponseUsers, User } from '../../types/user';
-import { defaultPage, defaultSize, totalElements } from '../../constants';
+import { paginationObject } from '../../utils';
+import { defaultStartPage, defaultPageSize, totalElements } from '../../constants';
 
 /**
  * @description faker 라이브러리를 이용하여 100개의 데이터를 생성합니다.
@@ -22,36 +23,34 @@ export const getUsers = http.get('/api/users', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-  const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
-  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
+  const page = pageParams ? parseInt(pageParams, 10) : defaultStartPage;
+  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultPageSize;
 
   const responseUsers: ResponseUsers = {
-    content: users.slice(startIndex, startIndex + defaultSize),
-    total_elements: totalElements,
-    total_pages: Math.ceil(totalElements / defaultSize),
-    last: false,
-    number: 0,
-    size: defaultSize,
-    sort: {},
-    number_of_elements: defaultSize,
-    first: true,
-    empty: false,
+    content: users.slice(startIndex, startIndex + defaultPageSize),
+    ...paginationObject(page),
   };
 
   return HttpResponse.json(responseUsers);
 });
 
+/**
+ * @description 이메일 중복 체크 하는 로직은 생략 후, 임의로 result를 faker로 생성 후 리턴합니다.
+ */
 export const checkEmailDuplicate = http.get('/api/users/:email/exists', async ({ params }) => {
-  // NOTE: 이메일 중복 체크 하는 로직, 임의로 result를 faker로 생성합니다.
   return HttpResponse.json({ result: faker.datatype.boolean() });
 });
 
+/**
+ * @description 사용자 생성하는 로직은 생략 후, 임의로 result를 faker로 생성 후 리턴합니다.
+ */
 export const createUser = http.post('/api/users', async ({ request }) => {
-  // NOTE: 사용자 생성 후, 임의로 result를 faker로 생성합니다.
   return HttpResponse.json({ result: faker.datatype.boolean(), id: faker.number.int() });
 });
 
+/**
+ * @description 사용자 수정하는 로직은 생략 후, result, id를 리턴합니다.
+ */
 export const editUser = http.patch('/api/users/:id', async ({ request, params }) => {
-  // NOTE: 사용자 수정 후, result, id를 리턴합니다.
   return HttpResponse.json({ result: true, id: params.id });
 });

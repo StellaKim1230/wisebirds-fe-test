@@ -16,6 +16,7 @@ import {
 import UserEdit from './UserEdit';
 import { User } from '../../types/user';
 import { fetcher } from '../../utils';
+import { HttpMethod } from '../../constants';
 
 interface Props {
   user: User;
@@ -34,7 +35,7 @@ const UserListItem = ({ user, page }: Props) => {
   const handleEditUser = async (name: string): Promise<void> => {
     try {
       const response = await fetch(`${process.env.ApiUrl}/api/users/${currentUser.id}`, {
-        method: 'PATCH',
+        method: HttpMethod.PATCH,
         body: JSON.stringify({ name }),
       });
       const { result } = await response.json();

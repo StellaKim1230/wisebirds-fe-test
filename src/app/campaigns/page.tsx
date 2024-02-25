@@ -3,7 +3,7 @@ import { Text, Box, Divider } from '@chakra-ui/react';
 import CampaignListTable from './CampaignListTable';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { ResponseCampaigns } from '../../types/campaign';
-import { defaultPage } from '../../constants';
+import { defaultStartPage } from '../../constants';
 
 async function getCampaigns(page: number) {
   try {
@@ -20,7 +20,7 @@ export default function CampaignsPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const page = Number(searchParams.page) || defaultPage;
+  const page = Number(searchParams.page) || defaultStartPage;
   const campaigns: ResponseCampaigns = use(getCampaigns(page));
 
   return (

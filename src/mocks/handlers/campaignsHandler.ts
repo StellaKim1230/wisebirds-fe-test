@@ -1,7 +1,8 @@
 import { HttpResponse, http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { Campaign, CampaignObjective, ResponseCampaigns } from '../../types/campaign';
-import { defaultPage, defaultSize, totalElements } from '../../constants';
+import { paginationObject } from '../../utils';
+import { defaultStartPage, defaultPageSize, totalElements } from '../../constants';
 
 /**
  * @description faker 라이브러리를 이용하여 100개의 데이터를 생성합니다.
@@ -27,28 +28,21 @@ export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-  const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
-  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
+  const page = pageParams ? parseInt(pageParams, 10) : defaultStartPage;
+  const startIndex = page === 1 ? page - 1 : (page - 1) * defaultPageSize;
 
   const responseCampaigns: ResponseCampaigns = {
-    content: campaigns.slice(startIndex, startIndex + defaultSize),
-    total_elements: totalElements,
-    total_pages: Math.ceil(totalElements / defaultSize),
-    last: false,
-    number: 0,
-    size: defaultSize,
-    sort: {},
-    number_of_elements: defaultSize,
-    first: true,
-    empty: false,
+    content: campaigns.slice(startIndex, startIndex + defaultPageSize),
+    ...paginationObject(page),
   };
 
   return HttpResponse.json(responseCampaigns);
 });
 
+/**
+ * @description 캠페인 상태의 enabled를 변경하는 로직은 생략 후 result, id를 리턴합니다.
+ */
 export const patchCampaignEnable = http.patch('/api/campaigns/:id', async ({ request, params }) => {
   const { id } = params;
-
-  //NOTE: id를 이용하여 캠페인을 찾아서 enabled를 변경합니다.
   return HttpResponse.json({ result: true, id });
 });
