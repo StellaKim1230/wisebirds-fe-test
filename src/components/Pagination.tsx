@@ -9,7 +9,7 @@ const Nav = styled.nav`
   margin: 16px;
 `;
 
-export const Pagination = ({
+const Pagination = ({
   total,
   size,
   page,
@@ -46,3 +46,5 @@ export const Pagination = ({
     </Nav>
   );
 };
+
+export default Pagination;

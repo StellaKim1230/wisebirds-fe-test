@@ -22,12 +22,16 @@ const CampaignListItem = ({ campaign, page }: Props) => {
   const { mutate } = useSWR(`${process.env.ApiUrl}/api/campaigns?page=${page}`, fetcher);
 
   const handleChangeEnabled = async () => {
-    setEnabled(!enabled);
-    await fetch(`${process.env.ApiUrl}/api/campaigns/${campaign.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ enabled: !enabled }),
-    });
-    await mutate();
+    try {
+      setEnabled(!enabled);
+      await fetch(`${process.env.ApiUrl}/api/campaigns/${campaign.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ enabled: !enabled }),
+      });
+      await mutate();
+    } catch (error) {
+      throw new Error();
+    }
   };
 
   return (
@@ -45,4 +49,5 @@ const CampaignListItem = ({ campaign, page }: Props) => {
     </Tr>
   );
 };
+
 export default CampaignListItem;

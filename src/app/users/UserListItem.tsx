@@ -19,30 +19,35 @@ import { fetcher } from '../../utils/fetcher';
 
 interface Props {
   user: User;
+  page: number;
 }
 
-const UserListItem = ({ user }: Props) => {
+const UserListItem = ({ user, page }: Props) => {
   const [currentUser, setCurrentUser] = useState<User>(user);
 
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useSWR(`${process.env.ApiUrl}/api/users?page=1`, fetcher);
+  const { mutate } = useSWR(`${process.env.ApiUrl}/api/users?page=${page}`, fetcher);
 
   const handleEditUser = async (name: string): Promise<void> => {
-    const response = await fetch(`${process.env.ApiUrl}/api/users/${currentUser.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ name }),
-    });
-    const { result, id } = await response.json();
+    try {
+      const response = await fetch(`${process.env.ApiUrl}/api/users/${currentUser.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ name }),
+      });
+      const { result } = await response.json();
 
-    // NOTE: 추후 사용자 수정 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
-    // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자의 상태를 업데이트 합니다.
-    if (result) {
-      await mutate();
-      setCurrentUser({ ...currentUser, name });
-      onClose();
+      // NOTE: 추후 사용자 수정 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
+      // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자의 상태를 업데이트 합니다.
+      if (result) {
+        await mutate();
+        setCurrentUser({ ...currentUser, name });
+        onClose();
+      }
+    } catch (error) {
+      throw new Error();
     }
   };
 

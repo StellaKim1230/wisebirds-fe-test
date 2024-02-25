@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import UserListItem from './UserListItem';
 import UserCreate from './UserCreate';
-import { Pagination } from '../../components/Pagination';
+import Pagination from '../../components/Pagination';
 import { RequestUser, User } from '../../types/user';
 import { fetcher } from '../../utils/fetcher';
 import { defaultSize } from '../../constants';
@@ -41,10 +41,14 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
   const [currentUsers, setCurrentUsers] = useState<User[]>(users);
 
   const handlePageChange = async (page: number) => {
-    router.replace(`${pathname}?page=${page}`);
-    const response = await fetch(`${process.env.ApiUrl}/api/users?page=${page}`);
-    const campaigns = await response.json();
-    setCurrentUsers(campaigns.content);
+    try {
+      router.replace(`${pathname}?page=${page}`);
+      const response = await fetch(`${process.env.ApiUrl}/api/users?page=${page}`);
+      const campaigns = await response.json();
+      setCurrentUsers(campaigns.content);
+    } catch (error) {
+      throw new Error();
+    }
   };
 
   const initialRef = useRef(null);
@@ -54,19 +58,23 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
   const { mutate } = useSWR(`${process.env.ApiUrl}/api/users?page=1`, fetcher);
 
   const handleCreateUser = async (request: RequestUser): Promise<void> => {
-    const response = await fetch(`${process.env.ApiUrl}/api/users`, {
-      method: 'POST',
-      body: JSON.stringify(request),
-    });
-    const { result, id } = await response.json();
+    try {
+      const response = await fetch(`${process.env.ApiUrl}/api/users`, {
+        method: 'POST',
+        body: JSON.stringify(request),
+      });
+      const { result, id } = await response.json();
 
-    // NOTE: 추후 사용자 생성 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
-    // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자를 맨 앞에 추가합니다.
-    if (result) {
-      await mutate();
-      const newUser = { id, email: request.email, name: request.name, last_login_at: new Date().toString() };
-      setCurrentUsers([newUser, ...currentUsers]);
-      onClose();
+      // NOTE: 추후 사용자 생성 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
+      // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자를 맨 앞에 추가합니다.
+      if (result) {
+        await mutate();
+        const newUser = { id, email: request.email, name: request.name, last_login_at: new Date().toString() };
+        setCurrentUsers([newUser, ...currentUsers]);
+        onClose();
+      }
+    } catch (error) {
+      throw new Error();
     }
   };
 
@@ -88,7 +96,7 @@ const UserListTable = ({ users, page, totalCount }: Props) => {
           </Thead>
           <Tbody>
             {currentUsers.map((user) => (
-              <UserListItem key={user.id} user={user} />
+              <UserListItem key={user.id} user={user} page={page} />
             ))}
           </Tbody>
         </Table>

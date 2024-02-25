@@ -5,9 +5,13 @@ import { ResponseCampaigns } from '../../types/campaign';
 import { defaultPage } from '../../constants';
 
 async function getCampaigns(page: number) {
-  const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
-  const campagins = await response.json();
-  return campagins;
+  try {
+    const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
+    const campagins = await response.json();
+    return campagins;
+  } catch (error) {
+    throw new Error();
+  }
 }
 
 export default function CampaignsPage({

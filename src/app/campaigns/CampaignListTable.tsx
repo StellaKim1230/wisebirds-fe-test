@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Table, Thead, Tbody, Tr, Th, TableContainer, Center } from '@chakra-ui/react';
 import CampaignListItem from './CampaignListItem';
-import { Pagination } from '../../components/Pagination';
+import Pagination from '../../components/Pagination';
 import { Campaign } from '../../types/campaign';
 import { defaultSize } from '../../constants';
 
@@ -21,10 +21,14 @@ const CampaignListTable = ({ campaigns, page, totalCount }: Props) => {
   const [currentCampaigns, setCurrentCampaigns] = useState<Campaign[]>(campaigns);
 
   const handlePageChange = async (page: number) => {
-    router.replace(`${pathname}?page=${page}`);
-    const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
-    const campaigns = await response.json();
-    setCurrentCampaigns(campaigns.content);
+    try {
+      router.replace(`${pathname}?page=${page}`);
+      const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
+      const campaigns = await response.json();
+      setCurrentCampaigns(campaigns.content);
+    } catch (error) {
+      throw new Error();
+    }
   };
 
   return (

@@ -5,9 +5,13 @@ import { ResponseUsers } from '../../types/user';
 import { defaultPage } from '../../constants';
 
 async function getUsers(page: number) {
-  const response = await fetch(`${process.env.ApiUrl}/api/users?page=${page}`);
-  const users = await response.json();
-  return users;
+  try {
+    const response = await fetch(`${process.env.ApiUrl}/api/users?page=${page}`);
+    const users = await response.json();
+    return users;
+  } catch (error) {
+    throw new Error();
+  }
 }
 
 export default function UsersPage({
