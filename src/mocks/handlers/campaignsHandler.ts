@@ -27,7 +27,6 @@ export const getCampaigns = http.get('/api/campaigns', ({ request }) => {
   }
 
   const pageParams = url.searchParams.get('page');
-
   const page = pageParams ? parseInt(pageParams, 10) : defaultPage;
   const startIndex = page === 1 ? page - 1 : (page - 1) * defaultSize;
 

@@ -37,8 +37,8 @@ const UserListItem = ({ user }: Props) => {
     });
     const { result, id } = await response.json();
 
-    // NOTE: 추후 사용자 생성 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
-    // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자를 맨 앞에 추가합니다.
+    // NOTE: 추후 사용자 수정 후 mutate를 통해 user 목록을 다시 렌더링 합니다.
+    // NOTE: api가 없기 때문에 지금은 mutate를 한 후 사용자의 상태를 업데이트 합니다.
     if (result) {
       await mutate();
       setCurrentUser({ ...currentUser, name });
