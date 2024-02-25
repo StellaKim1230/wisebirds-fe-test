@@ -25,7 +25,7 @@ import UserListItem from './UserListItem';
 import UserCreate from './UserCreate';
 import Pagination from '../../components/Pagination';
 import { RequestUser, User } from '../../types/user';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 import { defaultSize } from '../../constants';
 
 interface Props {

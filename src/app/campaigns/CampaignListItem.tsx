@@ -7,8 +7,7 @@ import { Tr, Td, Switch } from '@chakra-ui/react';
 import { menuStore } from '../../stores/menuStore';
 import { Campaign } from '../../types/campaign';
 import { MenuPermission } from '../../types/menu';
-import { roundAndConvertToPercentage } from '../../utils/roundAndConvertToPercentage';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher, roundAndConvertToPercentage } from '../../utils';
 
 interface Props {
   campaign: Campaign;

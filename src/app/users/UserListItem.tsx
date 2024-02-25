@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import UserEdit from './UserEdit';
 import { User } from '../../types/user';
-import { fetcher } from '../../utils/fetcher';
+import { fetcher } from '../../utils';
 
 interface Props {
   user: User;
