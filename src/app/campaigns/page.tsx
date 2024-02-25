@@ -1,6 +1,7 @@
 import { use } from 'react';
 import { Text, Box, Divider } from '@chakra-ui/react';
 import CampaignListTable from './CampaignListTable';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import { ResponseCampaigns } from '../../types/campaign';
 import { defaultPage } from '../../constants';
 
@@ -28,7 +29,9 @@ export default function CampaignsPage({
         캠패인 관리
       </Text>
       <Divider />
-      <CampaignListTable campaigns={campaigns.content} page={page} totalCount={campaigns.total_elements} />
+      <ErrorBoundary>
+        <CampaignListTable campaigns={campaigns.content} page={page} totalCount={campaigns.total_elements} />
+      </ErrorBoundary>
     </Box>
   );
 }

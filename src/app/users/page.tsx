@@ -1,6 +1,7 @@
 import { use } from 'react';
 import { Text, Box, Divider } from '@chakra-ui/react';
 import UserListTable from './UserListTable';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import { ResponseUsers } from '../../types/user';
 import { defaultPage } from '../../constants';
 
@@ -28,7 +29,9 @@ export default function UsersPage({
         사용자 관리
       </Text>
       <Divider marginBottom="16px" />
-      <UserListTable users={users.content} page={page} totalCount={users.total_elements} />
+      <ErrorBoundary>
+        <UserListTable users={users.content} page={page} totalCount={users.total_elements} />
+      </ErrorBoundary>
     </Box>
   );
 }
