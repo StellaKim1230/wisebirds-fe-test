@@ -40,8 +40,10 @@ $ pnpm dev
 
 ### 실행하기 전에 root directory에 .env 파일을 만들어서 아래 코드를 추가합니다.
 
+```
 API_URL = 'http://localhost:4000'
 NEXT_PUBLIC_API_MOCKING = 'enabled'
+```
 
 ## 프로젝트 구조
 
