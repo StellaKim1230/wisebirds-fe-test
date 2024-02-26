@@ -8,8 +8,8 @@ import { defaultStartPage } from '../../constants';
 async function getCampaigns(page: number) {
   try {
     const response = await fetch(`${process.env.ApiUrl}/api/campaigns?page=${page}`);
-    const campagins = await response.json();
-    return campagins;
+    const campaigns = await response.json();
+    return campaigns;
   } catch (error) {
     throw new Error();
   }
