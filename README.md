@@ -3,6 +3,7 @@
 ## 사용 기술
 
 - [React.js](https://ko.legacy.reactjs.org/)
+- [Next.js](https://nextjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
   - 사용하기 쉬운 컴포넌트와 스타일을 제공하고, 스타일도 쉽게 수정할 수 있습니다.
   - 기본적으로 접근성을 보장하고, 테마 설정을 지원하는 등 다양한 기능이 미리 구현되어 있습니다.
@@ -39,9 +40,7 @@ $ pnpm dev
 
 ### 실행하기 전에 root directory에 .env 파일을 만들어서 아래 코드를 추가합니다.
 
-```javascript
-API_URL = 'http://localhost:4000';
-```
+API_URL = 'http://localhost:4000'
 
 ## 프로젝트 구조
 
@@ -58,10 +57,10 @@ wisebirds-fe-test
 │ │  └─ 상태 저장과 관련된 파일들
 │ ├─ types
 │ │  └─ 타입 선언과 관련된 파일들
-│ ├─ utils
-│ │  └─ 공통 유틸리티 함수
-│ └─ constants
-└─   └─ 상수 관리 파일
+│ ├─ constants.ts
+│ │  └─ 상수 관리 파일
+│ └─ utils.ts
+└─   └─ 공통 유틸리티 함수
 ```
 
 ## 기타
